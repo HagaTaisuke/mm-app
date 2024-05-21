@@ -13,19 +13,19 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	public Integer getTotalAmountByUserId(Long userId) {
-		return transactionRepository.sumAmountByUserId(userId);
+	public int getTotalAmountByUserId(int userId) {
+		return transactionRepository.findTotalAmountByUserId(userId);
 	}
 
 	public Transaction createTransaction(Transaction transaction) {
 		return transactionRepository.save(transaction);
 	}
 
-	public Transaction getTransactionById(Long id) {
+	public Transaction getTransactionById(int id) {
 		return transactionRepository.findById(id).orElse(null);
 	}
 
-	public List<Transaction> getTransactionsByUserId(Long userId) {
+	public List<Transaction> getTransactionsByUserId(int userId) {
 		return transactionRepository.findByUserId(userId);
 	}
 
@@ -33,7 +33,7 @@ public class TransactionService {
 		return transactionRepository.save(transaction);
 	}
 
-	public void deleteTransaction(Long id) {
+	public void deleteTransaction(int id) {
 		transactionRepository.deleteById(id);
 	}
 }

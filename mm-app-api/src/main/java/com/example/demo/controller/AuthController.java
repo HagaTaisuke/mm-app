@@ -35,7 +35,7 @@ public class AuthController {
 				Map<String, String> response = new HashMap<>();
 				response.put("token", token);
 				response.put("username", username);
-				response.put("userId", user.getId().toString());
+				response.put("userId", String.valueOf(user.getId()));
 				System.out.println(String.format("認証成功：%s", username));
 				return ResponseEntity.ok(response);
 			} else {

@@ -25,9 +25,8 @@ public class TransactionController {
 	private TransactionService transactionService;
 
 	@GetMapping("/sum/{userId}")
-	public ResponseEntity<Integer> getSumAmountByUserId(@PathVariable Long userId) {
-		Integer sumAmount = transactionService.getTotalAmountByUserId(userId);
-		return ResponseEntity.ok(sumAmount != null ? sumAmount : 0);
+	public int getTotalAmountByUserId(@PathVariable int userId) {
+		return transactionService.getTotalAmountByUserId(userId);
 	}
 
 	@PostMapping
@@ -37,23 +36,23 @@ public class TransactionController {
 	}
 
 	@GetMapping("/{id}")
-	public Transaction getTransactionById(@PathVariable Long id) {
+	public Transaction getTransactionById(@PathVariable int id) {
 		return transactionService.getTransactionById(id);
 	}
 
 	@GetMapping("/user/{userId}")
-	public List<Transaction> getTransactionsByUserId(@PathVariable Long userId) {
+	public List<Transaction> getTransactionsByUserId(@PathVariable int userId) {
 		return transactionService.getTransactionsByUserId(userId);
 	}
 
 	@PutMapping("/{id}")
-	public Transaction updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
+	public Transaction updateTransaction(@PathVariable int id, @RequestBody Transaction transaction) {
 		transaction.setId(id);
 		return transactionService.saveTransaction(transaction);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteTransaction(@PathVariable Long id) {
+	public void deleteTransaction(@PathVariable int id) {
 		transactionService.deleteTransaction(id);
 	}
 }

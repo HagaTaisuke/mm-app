@@ -22,7 +22,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public Optional<User> getUserById(Long id) {
+	public Optional<User> getUserById(int id) {
 		return userRepository.findById(id);
 	}
 
@@ -30,7 +30,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User updateUser(Long id, User userDetails) {
+	public User updateUser(int id, User userDetails) {
 		Optional<User> userOptional = userRepository.findById(id);
 
 		if (userOptional.isPresent()) {
@@ -44,7 +44,7 @@ public class UserService {
 		}
 	}
 
-	public void deleteUser(Long id) {
+	public void deleteUser(int id) {
 		Optional<User> userOptional = userRepository.findById(id);
 
 		if (userOptional.isPresent()) {

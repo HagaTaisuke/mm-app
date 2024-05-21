@@ -22,8 +22,8 @@ public class Transaction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
+	@Column(name = "id", nullable = false)
+	private int id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
@@ -49,11 +49,11 @@ public class Transaction {
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -113,8 +113,4 @@ public class Transaction {
 		this.createdAt = createdAt;
 	}
 
-}
-
-enum TransactionType {
-	INCOME, EXPENSE, SUBSCRIPTION
 }

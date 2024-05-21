@@ -30,6 +30,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authz -> authz
 						.requestMatchers("/api/auth/**").permitAll()
 						.requestMatchers("/api/users/**").authenticated()
+						.requestMatchers("/api/transactions/**").authenticated()
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
