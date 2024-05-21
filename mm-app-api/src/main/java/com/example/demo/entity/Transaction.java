@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,6 +29,7 @@ public class Transaction {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
+	@JsonBackReference
 	private User user;
 
 	@Enumerated(EnumType.STRING)

@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class User {
 	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private Set<Transaction> transactions;
 
 	public int getId() {
