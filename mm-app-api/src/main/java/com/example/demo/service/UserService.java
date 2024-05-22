@@ -18,41 +18,35 @@ public class UserService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	public List<User> getAllUsers() {
+	//全てのuserを取得
+	public List<User> findAllUsers() {
 		return userRepository.findAll();
 	}
 
-	public Optional<User> getUserById(int id) {
-		return userRepository.findById(id);
+	//idからuserを取得
+	public User getUserById(int id) {
+		return userRepository.findById(id).orElse(null);
 	}
 
+	//userを作成
 	public User createUser(User user) {
 		return userRepository.save(user);
 	}
 
-	public User updateUser(int id, User userDetails) {
-		Optional<User> userOptional = userRepository.findById(id);
-
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			user.setUsername(userDetails.getUsername());
-			user.setPasswordHash(userDetails.getPasswordHash());
-			user.setEmail(userDetails.getEmail());
-			return userRepository.save(user);
-		} else {
-			throw new RuntimeException("User not found with id " + id);
-		}
+	//userを更新
+	public User updateUser(User user) {
+		return userRepository.save(user);
 	}
 
+	//userを削除
 	public void deleteUser(int id) {
-		Optional<User> userOptional = userRepository.findById(id);
+		Optional<User> user = userRepository.findById(id);
 
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			transactionRepository.deleteAllByUser(user);
-			userRepository.deleteById(id);
-		} else {
+		if (user == null) {
 			throw new RuntimeException("User not found with id " + id);
+		} else {
+			transactionRepository.deleteAllByUserId(id);
+			userRepository.deleteById(id);
 		}
 	}
 

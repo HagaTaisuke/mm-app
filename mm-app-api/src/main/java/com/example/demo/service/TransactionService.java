@@ -2,8 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,59 +10,49 @@ import com.example.demo.repository.TransactionRepository;
 
 @Service
 public class TransactionService {
+
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
-
-	public Integer getTotalAmountByUserId(int userId) {
-		try {
-			Integer result = transactionRepository.getTotalAmountByUserId(userId);
-
-			return result != null ? result : 0;
-		} catch (Exception e) {
-			logger.error("Error occurred while fetching total amount for user ID: " + userId, e);
-			return 0;
-		}
+	//userのトランザクションを全取得
+	public List<Transaction> findAllTransactions(int userId) {
+		return transactionRepository.findByUserId(userId);
 	}
 
-	public Transaction createTransaction(Transaction transaction) {
-		try {
-			return transactionRepository.save(transaction);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to create transaction", e);
-		}
-	}
-
-	public Transaction getTransactionById(int id) {
-		try {
-			return transactionRepository.findById(id).orElse(null);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to fetch transaction by ID: " + id, e);
-		}
-	}
-
-	public List<Transaction> getTransactionsByUserId(int userId) {
-		try {
-			return transactionRepository.findByUserId(userId);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to fetch transactions for user ID: " + userId, e);
-		}
-	}
-
+	//トランザクションを保存
 	public Transaction saveTransaction(Transaction transaction) {
-		try {
-			return transactionRepository.save(transaction);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to save transaction", e);
-		}
+		return transactionRepository.save(transaction);
 	}
 
-	public void deleteTransaction(int id) {
-		try {
-			transactionRepository.deleteById(id);
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to delete transaction by ID: " + id, e);
-		}
+	//トランザクションを削除
+	public void deleteById(int id) {
+		transactionRepository.deleteById(id);
 	}
+
+	//userの全トランザクションの合計金額を取得
+	public Integer getTotalAmountByUserId(int userId) {
+		Integer result = transactionRepository.getTotalAmountByUserId(userId);
+		return result != null ? result : 0;
+	}
+
+	//年月からトランザクションを取得
+	public List<Transaction> findByMonth(int userId, int month, int year) {
+		return transactionRepository.findByUserIdAndMonth(userId, month, year);
+	}
+
+	//タイプ毎にトランザクションを取得
+	public List<Transaction> findByType(int userId, String type) {
+		return transactionRepository.findByUserIdAndType(userId, type);
+	}
+
+	//カテゴリ名でトランザクションをあいまい検索
+	public List<Transaction> searchByCategoryName(int userId, String category) {
+		return transactionRepository.searchByUserIdAndCategoryLike(userId, category);
+	}
+
+	//userの全てのトランザクションを削除
+	public void deleteUserTransaction(int id) {
+		transactionRepository.deleteAllByUserId(id);
+	}
+
 }

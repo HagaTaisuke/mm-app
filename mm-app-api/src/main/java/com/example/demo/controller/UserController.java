@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,39 +23,35 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping
+	@GetMapping //全てのuserを取得
 	public List<User> getAllUsers() {
-		return userService.getAllUsers();
+		return userService.findAllUsers();
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable int id) {
-		Optional<User> user = userService.getUserById(id);
-		return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	@GetMapping("/{id}") //idからuserを取得
+	public User getUserById(@PathVariable int id) {
+		User user = userService.getUserById(id);
+		return user;
 	}
 
-	@PostMapping
+	@PostMapping //userを作成
 	public User createUser(@RequestBody User user) {
 		return userService.createUser(user);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User userDetails) {
-		try {
-			User updatedUser = userService.updateUser(id, userDetails);
-			return ResponseEntity.ok(updatedUser);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+	@PutMapping("/{id}") //userを更新
+	public User updateUser(@RequestBody User user) {
+
+		return userService.updateUser(user);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}") //userを削除
 	public ResponseEntity<Void> deleteUser(@PathVariable int id) {
 		userService.deleteUser(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("/all")
+	@DeleteMapping("/all") //全てのuserを削除 (use admin)
 	public ResponseEntity<Void> deleteAllUsers() {
 		userService.deleteAllUsers();
 		return ResponseEntity.noContent().build();

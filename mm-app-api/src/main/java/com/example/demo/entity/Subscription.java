@@ -1,62 +1,54 @@
 package com.example.demo.entity;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "transactions")
-public class Transaction {
+@Table(name = "subscriptions")
+public class Subscription {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private int id;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonBackReference
 	private User user;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "type")
-	private TransactionType type;
+	@Column(nullable = false)
+	private String name;
 
-	@Column(name = "category")
-	private String category;
-
-	@Column(name = "amount")
+	@Column(nullable = false)
 	private int amount;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date")
-	private Date date;
+	@Column(nullable = false)
+	private Date startDate;
 
-	@Column(name = "description")
+	private Date endDate;
+
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -68,20 +60,12 @@ public class Transaction {
 		this.user = user;
 	}
 
-	public TransactionType getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 
-	public void setType(TransactionType type) {
-		this.type = type;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getAmount() {
@@ -92,12 +76,20 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getDescription() {
@@ -108,8 +100,7 @@ public class Transaction {
 		this.description = description;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-
 }
