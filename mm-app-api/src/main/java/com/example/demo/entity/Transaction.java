@@ -39,7 +39,7 @@ public class Transaction {
 	@Column(name = "category")
 	private String category;
 
-	@Column(name = "amount")
+	@Column(name = "amount", nullable = false)
 	private int amount;
 
 	@Temporal(TemporalType.DATE)
