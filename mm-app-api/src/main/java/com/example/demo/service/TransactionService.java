@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,16 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	public int getTotalAmountByUserId(int userId) {
+	private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+
+	public Integer getTotalAmountByUserId(int userId) {
 		try {
-			System.out.println("success:getTotalAmountByUserId() id:" + userId + " return:"
-					+ transactionRepository.findTotalAmountByUserId(userId));
-			return transactionRepository.findTotalAmountByUserId(userId);
+			Integer result = transactionRepository.getTotalAmountByUserId(userId);
+
+			return result != null ? result : 0;
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to fetch total amount for user ID: " + userId, e);
+			logger.error("Error occurred while fetching total amount for user ID: " + userId, e);
+			return 0;
 		}
 	}
 

@@ -23,6 +23,8 @@ import com.example.demo.service.TransactionService;
 @RequestMapping("/api/transactions")
 public class TransactionController {
 
+	private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
+
 	@Autowired
 	private TransactionService transactionService;
 
@@ -34,7 +36,6 @@ public class TransactionController {
 			int sum = transactionService.getTotalAmountByUserId(userId);
 			return ResponseEntity.ok(sum);
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
 			logger.error("Error fetching transaction sum for user ID: " + userId, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -46,7 +47,6 @@ public class TransactionController {
 			Transaction savedTransaction = transactionService.createTransaction(transaction);
 			return ResponseEntity.status(HttpStatus.CREATED).body(savedTransaction);
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
 			logger.error("Error creating transaction", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -58,7 +58,6 @@ public class TransactionController {
 			Transaction transaction = transactionService.getTransactionById(id);
 			return ResponseEntity.ok(transaction);
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
 			logger.error("Error fetching transaction by ID: " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -70,7 +69,7 @@ public class TransactionController {
 			List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
 			return ResponseEntity.ok(transactions);
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
+
 			logger.error("Error fetching transactions for user ID: " + userId, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -83,7 +82,6 @@ public class TransactionController {
 			Transaction updatedTransaction = transactionService.saveTransaction(transaction);
 			return ResponseEntity.ok(updatedTransaction);
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
 			logger.error("Error updating transaction", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -95,7 +93,6 @@ public class TransactionController {
 			transactionService.deleteTransaction(id);
 			return ResponseEntity.noContent().build();
 		} catch (Exception e) {
-			Logger logger = LoggerFactory.getLogger(TransactionController.class);
 			logger.error("Error deleting transaction by ID: " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
